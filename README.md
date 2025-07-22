@@ -28,7 +28,7 @@
 
 <p align="center">
   <i>Curiosa(o) para saber se você e alguém especial formam o casal ideal?</i><br>
-  <a href="https://seulink.vercel.app" target="_blank" rel="noopener noreferrer"> Clique aqui para testar o LoveParticles!</a>
+  <a href="https://marizari.github.io/LoveParticles/" target="_blank" rel="noopener noreferrer"> Clique aqui para testar o LoveParticles!</a>
 </p>
 
 ---
