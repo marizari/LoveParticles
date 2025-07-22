@@ -1,6 +1,6 @@
 console.clear();
 
-// SETUP
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -15,10 +15,10 @@ renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// CONTROLS
+
 const controlsWebGL = new THREE.OrbitControls(camera, renderer.domElement);
 
-// PARTICLES FROM HEART
+
 const path = document.querySelector("path");
 const length = path.getTotalLength();
 const vertices = [];
@@ -61,7 +61,7 @@ gsap.fromTo(scene.rotation, {
   duration: 3
 });
 
-// RENDER
+
 function render() {
   requestAnimationFrame(render);
   geometry.setFromPoints(vertices);
@@ -69,24 +69,25 @@ function render() {
 }
 render();
 
-// RESIZE
+
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// SHIPPAR NOME
+
 const nomesMah = [
   "maria", "eduarda", "delazari", "pacheco",
   "maria eduarda", "maria delazari", "eduarda pacheco",
-  "maria eduarda pacheco delazari", "mah"
+  "maria eduarda pacheco delazari", "mah", "maduh", "maria pacheco", "eduarda delazari"
+
 ];
 
 const nomesVille = [
   "ville", "nunes", "figueiredo", "silva",
   "ville nunes", "ville figueiredo", "ville da silva",
-  "ville nunes figueiredo da silva"
+  "ville nunes figueiredo da silva", "bryan"
 ];
 
 function normalizar(nome) {
@@ -110,7 +111,7 @@ function shippar() {
   }
 
   resultadoDiv.style.opacity = "0";
-  resultadoDiv.innerHTML = `💘 Compatibilidade: <strong>${porcentagem}%</strong> 💘`;
+  resultadoDiv.innerHTML = ` Compatibilidade: <strong>${porcentagem}%</strong> `;
   setTimeout(() => {
     resultadoDiv.style.animation = "fadeIn 1s ease forwards";
   }, 100);
