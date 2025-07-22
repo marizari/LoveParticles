@@ -28,7 +28,7 @@ loader.load('https://cdn.pixabay.com/photo/2013/07/18/10/56/space-164560_1280.jp
   scene.add(bgMesh);
 });
 
-/* PARTICLES */
+/* PARTICLES DO CORAÇÃO */
 const tl = gsap.timeline({ repeat: -1, yoyo: true });
 
 const path = document.querySelector("path");
@@ -52,7 +52,7 @@ for (let i = 0; i < length; i += 0.1) {
   }, i * 0.002);
 }
 
-/* SHADER COM GRADIENTE ANIMADO */
+/* SHADER COM GRADIENTE */
 const uniforms = {
   uTime: { value: 0.0 }
 };
@@ -88,14 +88,35 @@ const material = new THREE.ShaderMaterial({
   depthWrite: false
 });
 
-/* CRIAÇÃO DAS PARTÍCULAS */
+/* CRIA E POSICIONA O CORAÇÃO */
 const geometry = new THREE.BufferGeometry().setFromPoints(vertices);
 const particles = new THREE.Points(geometry, material);
 particles.position.x -= 600 / 2;
 particles.position.y += 552 / 2;
 scene.add(particles);
 
-/* ROTACIONAR COM MOUSE */
+/* PARTICULAS DE FUNDO */
+const bgVertices = [];
+for (let i = 0; i < 1000; i++) {
+  const x = (Math.random() - 0.5) * 4000;
+  const y = (Math.random() - 0.5) * 4000;
+  const z = -Math.random() * 1500 - 500;
+  bgVertices.push(new THREE.Vector3(x, y, z));
+}
+
+const bgGeometry = new THREE.BufferGeometry().setFromPoints(bgVertices);
+const bgMaterial = new THREE.PointsMaterial({
+  color: 0xffffff,
+  size: 2,
+  transparent: true,
+  opacity: 0.3,
+  depthWrite: false
+});
+
+const bgParticles = new THREE.Points(bgGeometry, bgMaterial);
+scene.add(bgParticles);
+
+/* INTERAÇÃO COM MOUSE */
 let targetRotation = { x: 0, y: 0 };
 
 window.addEventListener("mousemove", (e) => {
@@ -118,6 +139,7 @@ function render() {
   requestAnimationFrame(render);
   uniforms.uTime.value += 0.02;
   geometry.setFromPoints(vertices);
+  bgParticles.rotation.y += 0.0005;
   renderer.render(scene, camera);
 }
 
