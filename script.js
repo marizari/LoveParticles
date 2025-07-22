@@ -1,6 +1,5 @@
 console.clear();
 
-
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
   75,
@@ -15,10 +14,10 @@ renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-
+// CONTROLES
 const controlsWebGL = new THREE.OrbitControls(camera, renderer.domElement);
 
-
+// PARTICULAS DO CORAÇÃO
 const path = document.querySelector("path");
 const length = path.getTotalLength();
 const vertices = [];
@@ -51,6 +50,7 @@ particles.position.x -= 600 / 2;
 particles.position.y += 552 / 2;
 scene.add(particles);
 
+// ANIMAÇÃO DE ROTAÇÃO
 gsap.fromTo(scene.rotation, {
   y: -0.2
 }, {
@@ -81,7 +81,6 @@ const nomesMah = [
   "maria", "eduarda", "delazari", "pacheco",
   "maria eduarda", "maria delazari", "eduarda pacheco",
   "maria eduarda pacheco delazari", "mah", "maduh", "maria pacheco", "eduarda delazari"
-
 ];
 
 const nomesVille = [
@@ -90,17 +89,25 @@ const nomesVille = [
   "ville nunes figueiredo da silva", "bryan"
 ];
 
+
 function normalizar(nome) {
   return nome.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
+
 
 function shippar() {
   const nome1 = normalizar(document.getElementById("nome1").value);
   const nome2 = normalizar(document.getElementById("nome2").value);
   const resultadoDiv = document.getElementById("resultado");
 
-  let porcentagem = 0;
 
+  if (!nome1 || !nome2) {
+    window.alert("Eiii... presta atençaão! Tem de preencher todos os campos!");
+    return;
+  }
+
+ 
+  let porcentagem = 0;
   if (
     (nomesMah.some(n => nome1.includes(n)) && nomesVille.some(n => nome2.includes(n))) ||
     (nomesMah.some(n => nome2.includes(n)) && nomesVille.some(n => nome1.includes(n)))
@@ -110,9 +117,13 @@ function shippar() {
     porcentagem = Math.floor(Math.random() * 99) + 1;
   }
 
+  // Exibição
   resultadoDiv.style.opacity = "0";
-  resultadoDiv.innerHTML = ` Compatibilidade: <strong>${porcentagem}%</strong> `;
+  resultadoDiv.innerHTML = `
+    <img src="img/icons8-coração-undertale-32.png" style="vertical-align: middle;" />
+    Compatibilidade: <strong>${porcentagem}%</strong>
+  `;
   setTimeout(() => {
-    resultadoDiv.style.animation = "fadeIn 1s ease forwards";
+    resultadoDiv.style.opacity = "1";
   }, 100);
 }
