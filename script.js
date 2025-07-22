@@ -24,7 +24,7 @@ loader.load('https://cdn.pixabay.com/photo/2013/07/18/10/56/space-164560_1280.jp
   const bgGeometry = new THREE.PlaneGeometry(4000, 4000);
   const bgMaterial = new THREE.MeshBasicMaterial({ map: texture, depthWrite: false });
   const bgMesh = new THREE.Mesh(bgGeometry, bgMaterial);
-  bgMesh.position.z = -1000; // Coloca o fundo bem atrás
+  bgMesh.position.z = -1000;
   scene.add(bgMesh);
 });
 
@@ -52,41 +52,71 @@ for (let i = 0; i < length; i += 0.1) {
   }, i * 0.002);
 }
 
-const geometry = new THREE.BufferGeometry().setFromPoints(vertices);
-const material = new THREE.PointsMaterial({
-  color: 0xee5282,
+/* SHADER COM GRADIENTE ANIMADO */
+const uniforms = {
+  uTime: { value: 0.0 }
+};
+
+const material = new THREE.ShaderMaterial({
+  uniforms: uniforms,
+  vertexShader: `
+    uniform float uTime;
+    varying float vTime;
+    void main() {
+      vTime = uTime;
+      vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+      gl_PointSize = 4.0;
+      gl_Position = projectionMatrix * mvPosition;
+    }
+  `,
+  fragmentShader: `
+    precision mediump float;
+    varying float vTime;
+
+    void main() {
+      vec2 uv = gl_PointCoord;
+
+      float r = 0.9 + 0.1 * sin(vTime + uv.y * 10.0);
+      float g = 0.5 + 0.5 * sin(vTime + uv.x * 5.0);
+      float b = 0.7 + 0.3 * sin(vTime * 0.5 + uv.y * 15.0);
+
+      gl_FragColor = vec4(r, g, b, 1.0);
+    }
+  `,
+  transparent: true,
   blending: THREE.AdditiveBlending,
-  size: 3,
-  transparent: true
+  depthWrite: false
 });
+
+/* CRIAÇÃO DAS PARTÍCULAS */
+const geometry = new THREE.BufferGeometry().setFromPoints(vertices);
 const particles = new THREE.Points(geometry, material);
 particles.position.x -= 600 / 2;
 particles.position.y += 552 / 2;
 scene.add(particles);
 
-/* ANIMAÇÃO PULSANTE */
-gsap.to(material, {
-  size: 6,
-  duration: 1.5,
-  repeat: -1,
-  yoyo: true,
-  ease: "sine.inOut"
-});
+/* ROTACIONAR COM MOUSE */
+let targetRotation = { x: 0, y: 0 };
 
-/* ROTACIONAR CENA */
-gsap.fromTo(scene.rotation, {
-  y: -0.2
-}, {
-  y: 0.2,
-  repeat: -1,
-  yoyo: true,
-  ease: 'power2.inOut',
-  duration: 3
+window.addEventListener("mousemove", (e) => {
+  const x = (e.clientX / window.innerWidth) * 2 - 1;
+  const y = (e.clientY / window.innerHeight) * 2 - 1;
+
+  targetRotation.y = x * 0.5;
+  targetRotation.x = y * 0.3;
+
+  gsap.to(scene.rotation, {
+    x: targetRotation.x,
+    y: targetRotation.y,
+    duration: 1.2,
+    ease: "power2.out"
+  });
 });
 
 /* RENDERING */
 function render() {
   requestAnimationFrame(render);
+  uniforms.uTime.value += 0.02;
   geometry.setFromPoints(vertices);
   renderer.render(scene, camera);
 }
