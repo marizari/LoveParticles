@@ -79,14 +79,15 @@ window.addEventListener("resize", () => {
 const nomesMah = [
   "maria", "eduarda", "delazari", "pacheco",
   "maria eduarda", "maria delazari", "eduarda pacheco",
-  "maria eduarda pacheco delazari", "mah", "maduh", "maria pacheco", "eduarda delazari", "menina do violino"
+  "maria eduarda pacheco delazari", "mah", "maduh", "maria pacheco", "eduarda delazari", "menina do violino",
+  "Menina do Violino", "MENINA DO VIOLINO"
 ];
 
 const nomesVille = [
   "ville", "nunes", "figueiredo", "silva",
   "ville nunes", "ville figueiredo", "ville da silva",
   "ville nunes figueiredo da silva", "bryan", "menino da rodoviaria", "menino da rodoviária", 
-  "garoto da rodoviaria"
+  "garoto da rodoviaria", "MENINO DA RODOVIARIA", "Menino da Rodoviaria", "Menino da Rodoviária"
 ];
 
 
@@ -117,7 +118,7 @@ function shippar() {
     porcentagem = Math.floor(Math.random() * 99) + 1;
   }
 
-  // Exibição
+  
   resultadoDiv.style.opacity = "0";
   resultadoDiv.innerHTML = `
     <img src="img/icons8-coração-undertale-32.png" style="vertical-align: middle;" />
