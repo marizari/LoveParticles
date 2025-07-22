@@ -14,10 +14,9 @@ renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// CONTROLES
+
 const controlsWebGL = new THREE.OrbitControls(camera, renderer.domElement);
 
-// PARTICULAS DO CORAÇÃO
 const path = document.querySelector("path");
 const length = path.getTotalLength();
 const vertices = [];
@@ -50,7 +49,7 @@ particles.position.x -= 600 / 2;
 particles.position.y += 552 / 2;
 scene.add(particles);
 
-// ANIMAÇÃO DE ROTAÇÃO
+
 gsap.fromTo(scene.rotation, {
   y: -0.2
 }, {
@@ -80,13 +79,14 @@ window.addEventListener("resize", () => {
 const nomesMah = [
   "maria", "eduarda", "delazari", "pacheco",
   "maria eduarda", "maria delazari", "eduarda pacheco",
-  "maria eduarda pacheco delazari", "mah", "maduh", "maria pacheco", "eduarda delazari"
+  "maria eduarda pacheco delazari", "mah", "maduh", "maria pacheco", "eduarda delazari", "menina do violino"
 ];
 
 const nomesVille = [
   "ville", "nunes", "figueiredo", "silva",
   "ville nunes", "ville figueiredo", "ville da silva",
-  "ville nunes figueiredo da silva", "bryan"
+  "ville nunes figueiredo da silva", "bryan", "menino da rodoviaria", "menino da rodoviária", 
+  "garoto da rodoviaria"
 ];
 
 
